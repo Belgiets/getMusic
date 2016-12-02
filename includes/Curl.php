@@ -11,14 +11,23 @@ class Curl {
         $this->url = $url;
     }
 
-    public function sendRequest() {
+    public function sendRequest($type = 'json') {
         $curl = $this->getCurl();
         // Set some options - we are passing in a useragent too here
         curl_setopt_array($curl, [
             CURLOPT_RETURNTRANSFER => $this->getRt(),
             CURLOPT_URL => $this->getUrl()
         ]);
-        $curl_result = json_decode(curl_exec($curl));
+
+        $curl_result = curl_exec($curl);
+
+        if ('json' === $type) {
+            $curl_result = json_decode($curl_result);
+        } elseif ('string' === $type) {
+            parse_str($curl_result);
+
+            if (!empty($access_token)) $curl_result = $access_token;
+        }
 
         // Close request to clear up some resources
         curl_close($curl);
