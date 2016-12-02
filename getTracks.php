@@ -109,8 +109,8 @@ if (isset($_GET['playlist_id'])) {
                 <div class="col-xs-12 col-sm-2">
                     <div class="music-buttons">
                         <input class="btn btn-default music-download" type="submit" value="Download">
-                        <button class="btn btn-default music-uncheck">Uncheck all</button>
-                        <button class="btn btn-default music-check">Check all</button>
+                        <a class="btn btn-default music-uncheck">Uncheck all</a>
+                        <a class="btn btn-default music-check">Check all</a>
                     </div>
                 </div>
             </div>
