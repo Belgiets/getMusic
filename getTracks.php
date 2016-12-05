@@ -18,12 +18,13 @@ if (isset($_GET['playlist_id'])) {
     $deezer_tracks = $deezer_playlist->tracks->data;
 } elseif (isset($_GET['songs'])) {
     $songs = array_keys($_GET['songs'], "on");
-    $qty = 0;
+    $downloaded_songs = [];
+    $statuses = [];
 
     foreach ($songs as $song) {
         $search_params = [
             'q' => urlencode($song),
-            'auto_complete' => 1,
+//            'auto_complete' => 1,
             'count' => 10,
             'access_token' => $config['vk']['token'],
             'v' => '5.60'
@@ -39,13 +40,19 @@ if (isset($_GET['playlist_id'])) {
 
                 if (is_array($items) && count($items)) {
                     foreach ($items as $item) {
-                        $result = (new Curl($item->url))->saveFile("music/{$item->artist}-{$item->title}.mp3");
+                        $download = new Curl($item->url);
+                        $fileName = str_replace(['/'], ['-'], "{$item->artist}-{$item->title}");
+
+                        $download->setFileName($fileName);
+                        $result = $download->saveFile("music/$fileName.mp3");
+
                         if ($result) {
-                            $qty ++;
+                            $downloaded_songs[] = $fileName;
                             break;
                         }
                     }
                 }
+                $statuses[$song] = ($result) ? 'true' : 'false';
             }
         }
     }
@@ -117,8 +124,22 @@ if (isset($_GET['playlist_id'])) {
         </form>
         <?php
     } else {
+        print "<h3>Downloaded " . count($downloaded_songs) . " songs</h3>";
+
+        print "<ul>";
+        foreach ($downloaded_songs as $song) {
+            print "<li>$song</li>";
+        }
+        print "</ul>";
+
+        print "<h3>Statuses</h3>";
+        print "<ul>";
+        foreach ($statuses as $name => $status) {
+            print "<li>$name - $status</li>";
+        }
+        print "</ul>";
         ?>
-        <h3>Downloaded <?php print $qty; ?> songs</h3>
+
         <a href="/music">Go to music</a>
         <?php
     }

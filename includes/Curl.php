@@ -4,6 +4,7 @@ class Curl {
     private $curl;
     private $rt;
     private $url;
+    private $fileName;
 
     public function __construct($url, $rt = 1) {
         $this->curl = curl_init();
@@ -46,7 +47,7 @@ class Curl {
         curl_setopt_array($curl, [
             CURLOPT_RETURNTRANSFER => $this->getRt(),
             CURLOPT_URL => $this->getUrl(),
-//            CURLOPT_PROGRESSFUNCTION => 'progressCallback',
+//            CURLOPT_PROGRESSFUNCTION => [$this, 'showProgress'],
 //            CURLOPT_NOPROGRESS => FALSE,
             CURLOPT_FAILONERROR => 1,
             CURLOPT_FOLLOWLOCATION => 1,
@@ -60,6 +61,8 @@ class Curl {
         curl_close($curl);
 
         fclose($file);
+
+        if (!$result) unlink($dest);
 
         return $result;
     }
@@ -104,5 +107,19 @@ class Curl {
      */
     public function setUrl($url) {
         $this->url = $url;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFileName() {
+        return $this->fileName;
+    }
+
+    /**
+     * @param mixed $fileName
+     */
+    public function setFileName($fileName) {
+        $this->fileName = $fileName;
     }
 }
