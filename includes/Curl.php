@@ -52,7 +52,7 @@ class Curl {
             CURLOPT_FAILONERROR => 1,
             CURLOPT_FOLLOWLOCATION => 1,
             CURLOPT_RETURNTRANSFER => 1,
-            CURLOPT_TIMEOUT => 15,
+            CURLOPT_TIMEOUT => 120,
             CURLOPT_USERAGENT => 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.13) Gecko/20080311 Firefox/2.0.0.13',
             CURLOPT_FILE => $file
         ]);

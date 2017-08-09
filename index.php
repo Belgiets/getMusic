@@ -24,31 +24,17 @@ global $config;
 
 if (empty($config['deezer']['token'])) {
     $params = [
-        'app_id'       => $config['deezer']['id'],
-    'redirect_uri' => $config['deezer']['uri'],
-    'perms'        => $config['deezer']['perms']
+        'app_id' => $config['deezer']['id'],
+        'redirect_uri' => $config['deezer']['uri'],
+        'perms' => $config['deezer']['perms'],
     ];
 
     print '<p><a href="' . $config['deezer']['oauth_url'] . '?' . urldecode(http_build_query($params)) . '">Get deezer</a></p>';
-    } else {
+} else {
     $token = $config['deezer']['token'];
 
     include_once 'templates/getDeezerPlaylists.php';
-    }
-
-    //if (empty($config['vk']['token'])) {
-    //    $params = [
-    //        'client_id'     => $config['vk']['id'],
-    //        'redirect_uri'  => $config['vk']['uri'],
-    //        'response_type' => 'code'
-    //    ];
-    //
-    //    print '<p><a href="' . $config['vk']['oauth_url'] . '?' . urldecode(http_build_query($params)) . '">Get music</a></p>';
-    //} else {
-    //    $token = $config['vk']['token'];
-    //
-    //    include_once 'templates/getMusic.php';
-    //}
+}
 ?>
         </div>
         <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
